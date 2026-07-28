@@ -1,26 +1,261 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-crema: #faf3e3;
+  --color-crema-2: #fdf4e2;
+  --color-crema-3: #f4ead3;
+  --color-borde: #eae0cb;
+  --color-borde-2: #e0d5bd;
+  --color-tinta: #261e17;
+  --color-tinta-2: #55402d;
+  --color-muted: #8e8171;
+  --color-terracota: #b4503f;
+  --color-terracota-2: #9b4030;
+  --color-verde: #3f6b3c;
+  --color-verde-2: #5e8c5a;
+  --color-verde-bg: #e7efe3;
+  --color-ambar: #c08a2e;
+  --color-ambar-bg: #fdebc8;
+  --color-ml: #ffe600;
+
+  --font-display: var(--font-sora), sans-serif;
+  --font-sans: var(--font-onest), sans-serif;
+
+  --shadow-card: 0 1px 2px rgba(38, 30, 23, 0.05), 0 8px 24px -8px rgba(38, 30, 23, 0.12);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-crema);
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Patrón de puntitos sutil, igual que la app */
+.dots-bg {
+  background-image: radial-gradient(rgba(38, 30, 23, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.dots-bg-dark {
+  background-image: radial-gradient(rgba(250, 243, 227, 0.1) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Reveal escalonado del hero */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  opacity: 0;
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.rise-1 { animation-delay: 0.05s; }
+.rise-2 { animation-delay: 0.15s; }
+.rise-3 { animation-delay: 0.25s; }
+.rise-4 { animation-delay: 0.35s; }
+.rise-5 { animation-delay: 0.5s; }
+
+/* Reveal on scroll (progressive enhancement vía JS) */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .reveal {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Pulso del contador de despacho en el mockup */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.pulse-dot {
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+
+/* ── Glass system · pegar al final de app/globals.css ───────────────
+   Prefijo .ds-  Clases plain CSS (no Tailwind) porque backdrop-filter +
+   multi-capa de sombras + hairlines de 0.5px se vuelven ilegibles inline. */
+
+:root {
+  --ease-ds: cubic-bezier(0.32, 0.72, 0, 1);
+  --glass-fill: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.48));
+  --glass-ring: 0 0 0 0.5px rgba(38, 30, 23, 0.08), 0 1px 2px rgba(38, 30, 23, 0.04), 0 14px 34px -14px rgba(38, 30, 23, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --glass-ring-hi: 0 0 0 0.5px rgba(38, 30, 23, 0.1), 0 2px 4px rgba(38, 30, 23, 0.05), 0 26px 50px -20px rgba(38, 30, 23, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* Tarjeta de vidrio. Reemplaza a border-borde + bg-crema + shadow-card. */
+.ds-card {
+  border-radius: 24px;
+  padding: 26px;
+  background: var(--glass-fill);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(22px) saturate(180%);
+  box-shadow: var(--glass-ring);
+  transition: transform 0.4s var(--ease-ds), box-shadow 0.4s var(--ease-ds);
+}
+.ds-card:hover { transform: translateY(-2px); box-shadow: var(--glass-ring-hi); }
+
+/* Contenedor de icono. Reemplaza al emoji en bg-terracota/10. */
+.ds-ico {
+  width: 42px; height: 42px; border-radius: 14px; flex-shrink: 0;
+  display: grid; place-items: center;
+  color: var(--color-terracota);
+  background: linear-gradient(180deg, rgba(180, 80, 63, 0.13), rgba(180, 80, 63, 0.07));
+  box-shadow: inset 0 0 0 0.5px rgba(180, 80, 63, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.ds-ico svg { width: 20px; height: 20px; }
+.ds-ico-sm { width: 34px; height: 34px; border-radius: 11px; }
+.ds-ico-sm svg { width: 17px; height: 17px; }
+
+.ds-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  border-radius: 999px; padding: 7px 15px 7px 12px;
+  font-size: 12.5px; font-weight: 600; color: var(--color-tinta-2);
+  background: var(--glass-fill);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  box-shadow: 0 0 0 0.5px rgba(38, 30, 23, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Botón con relieve tipo iOS. */
+.ds-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  border-radius: 999px; padding: 12px 22px;
+  font-family: var(--font-display); font-weight: 600; font-size: 14.5px;
+  color: var(--color-crema);
+  background: linear-gradient(180deg, #c05a48, #b4503f);
+  box-shadow: 0 0 0 0.5px rgba(120, 45, 32, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.28), 0 10px 24px -10px rgba(155, 64, 48, 0.7);
+  transition: transform 0.3s var(--ease-ds), box-shadow 0.3s var(--ease-ds), filter 0.3s;
+}
+.ds-btn:hover { color: var(--color-crema); transform: translateY(-1.5px); filter: brightness(1.06); box-shadow: 0 0 0 0.5px rgba(120, 45, 32, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.28), 0 16px 32px -12px rgba(155, 64, 48, 0.8); }
+.ds-btn:active { transform: translateY(0) scale(0.985); }
+.ds-btn-lg { font-size: 16.5px; padding: 16px 30px; }
+.ds-btn-inv {
+  color: var(--color-terracota);
+  background: linear-gradient(180deg, #fffdf8, #f7eddc);
+  box-shadow: 0 0 0 0.5px rgba(120, 45, 32, 0.18), 0 12px 28px -10px rgba(60, 20, 12, 0.4), inset 0 1px 0 #fff;
+}
+.ds-btn-inv:hover { color: var(--color-terracota-2); }
+
+/* Banda de sección: hairlines en vez de border-y de 1px. */
+.ds-band {
+  border-top: 0.5px solid rgba(38, 30, 23, 0.1);
+  border-bottom: 0.5px solid rgba(38, 30, 23, 0.1);
+  background: linear-gradient(180deg, rgba(253, 244, 226, 0.7), rgba(244, 234, 211, 0.5));
+}
+
+/* Header de vidrio. */
+.ds-header {
+  background: linear-gradient(180deg, rgba(250, 243, 227, 0.9), rgba(250, 243, 227, 0.62));
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 0.5px solid rgba(38, 30, 23, 0.1);
+}
+
+/* Halos de color del hero. */
+.ds-halo, .ds-halo-2 { position: absolute; pointer-events: none; }
+.ds-halo { left: 50%; top: -160px; width: 1000px; height: 640px; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(180, 80, 63, 0.14), transparent 72%); }
+.ds-halo-2 { right: -180px; top: 220px; width: 620px; height: 620px; background: radial-gradient(closest-side, rgba(192, 138, 46, 0.13), transparent 70%); }
+
+/* Lista agrupada de "dolores": una pieza, no 6 tarjetas. */
+.ds-list {
+  border-radius: 24px; overflow: hidden;
+  background: var(--glass-fill);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(22px) saturate(180%);
+  box-shadow: var(--glass-ring);
+}
+.ds-row { position: relative; display: flex; align-items: center; gap: 16px; padding: 18px 22px; transition: background 0.3s var(--ease-ds); }
+.ds-row:hover { background: rgba(255, 255, 255, 0.6); }
+.ds-row + .ds-row::before { content: ""; position: absolute; top: 0; left: 60px; right: 22px; height: 0.5px; background: rgba(38, 30, 23, 0.09); }
+
+/* Banda de confianza: divisores verticales, una sola pieza. */
+.ds-split > div { position: relative; padding: 28px 26px; }
+.ds-split > div + div::before { content: ""; position: absolute; top: 22px; bottom: 22px; left: 0; width: 0.5px; background: rgba(38, 30, 23, 0.1); }
+@media (max-width: 767px) {
+  .ds-split > div + div::before { top: 0; bottom: auto; left: 26px; right: 26px; width: auto; height: 0.5px; }
+}
+
+/* Kicker terracota (Vender está bueno / Perseguir pedidos, no). */
+.ds-kicker {
+  position: relative; overflow: hidden;
+  border-radius: 24px; padding: 26px 30px;
+  color: var(--color-crema);
+  background: linear-gradient(150deg, #c05a48, #9b4030);
+  box-shadow: 0 24px 50px -22px rgba(155, 64, 48, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+/* Card oscura (stat de origen, CTA de Mercado Envíos). */
+.ds-dark {
+  position: relative; overflow: hidden;
+  border-radius: 26px;
+  background: var(--color-tinta); color: var(--color-crema);
+  box-shadow: 0 26px 56px -26px rgba(38, 30, 23, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* CTA final. */
+.ds-cta { position: relative; overflow: hidden; background: linear-gradient(160deg, #c05a48, #9b4030 60%, #8a3626); }
+
+/* Marco de teléfono con degradado metálico. */
+.ds-phone {
+  position: relative; width: 318px; margin: 0 auto;
+  border-radius: 46px; padding: 9px;
+  background: linear-gradient(165deg, #4a3b2e, #1c1610 55%, #332821);
+  box-shadow: 0 0 0 0.5px rgba(38, 30, 23, 0.5), 0 3px 6px rgba(38, 30, 23, 0.14), 0 46px 80px -30px rgba(38, 30, 23, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+.ds-phone-screen { position: relative; border-radius: 38px; overflow: hidden; background: var(--color-crema); box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.4); }
+.ds-phone-notch { position: absolute; left: 50%; top: 9px; width: 96px; height: 26px; transform: translateX(-50%); border-radius: 999px; background: #14100c; z-index: 5; }
+
+/* Fila de vidrio dentro de los mockups. OJO: .ds-glass-row .t y .s necesitan
+   display:block — si quedan inline el título y la meta se pisan. */
+.ds-glass-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 8px; padding: 10px 11px; border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.66));
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  box-shadow: 0 0 0 0.5px rgba(38, 30, 23, 0.07), 0 6px 14px -8px rgba(38, 30, 23, 0.2), inset 0 1px 0 #fff;
+}
+.ds-glass-row .t { display: block; font-size: 11px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ds-glass-row .s { display: block; font-size: 9.5px; color: var(--color-muted); margin-top: 1px; }
+
+/* Línea de escaneo del mockup QR (reemplaza a .scanline). */
+.ds-scan { position: relative; overflow: hidden; border-radius: 14px; background: linear-gradient(160deg, #2e241c, #191410); box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.5); }
+.ds-scan-frame { position: absolute; inset: 22px 30px; border-radius: 12px; box-shadow: 0 0 0 1.5px rgba(250, 243, 227, 0.35); }
+.ds-scan-line { position: absolute; left: 30px; right: 30px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, transparent, #ffe600, transparent); box-shadow: 0 0 12px rgba(255, 230, 0, 0.8); animation: ds-scan 2.6s ease-in-out infinite; }
+@keyframes ds-scan { 0%, 100% { top: 26%; } 50% { top: 74%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-card, .ds-btn, .ds-row { transition: none; }
+  .ds-card:hover, .ds-btn:hover { transform: none; }
+  .ds-scan-line { animation: none; top: 50%; }
 }
