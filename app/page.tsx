@@ -2,7 +2,6 @@ import {
   Header,
   Hero,
   Problema,
-  ComoFunciona,
   Features,
   Equipo,
   Confianza,
@@ -18,7 +17,6 @@ export default function Home() {
         <Hero />
         <Problema />
         <Equipo />
-        <ComoFunciona />
         <Features />
         <Confianza />
         <CtaFinal />

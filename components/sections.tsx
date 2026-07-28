@@ -7,34 +7,14 @@
 //   · el logo real de /public/logo.svg reemplaza al wordmark en texto
 import Image from "next/image";
 import { waLink } from "@/lib/site";
-import { MockHoy, MockScan, MockMetricas, MockEtiquetas, PhoneFrame } from "@/components/mockups";
+import { MockScan, MockMetricas } from "@/components/mockups";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
+import { HeroDemo } from "@/components/HeroDemo";
 import { Icon, type IconName } from "@/components/icons";
+import { CtaWhatsApp } from "@/components/CtaWhatsApp";
 
-/* ---------- Botones ---------- */
-
-export function CtaWhatsApp({
-  children = "Hablemos por WhatsApp",
-  large = false,
-  inverted = false,
-}: {
-  children?: React.ReactNode;
-  large?: boolean;
-  inverted?: boolean;
-}) {
-  return (
-    <a
-      href={waLink()}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`ds-btn ${large ? "ds-btn-lg" : ""} ${inverted ? "ds-btn-inv" : ""}`}
-    >
-      <Icon name="whatsapp" className={large ? "h-[18px] w-[18px]" : "h-4 w-4"} />
-      {children}
-    </a>
-  );
-}
+export { CtaWhatsApp };
 
 /* ---------- Header ---------- */
 
@@ -58,35 +38,7 @@ export function Hero() {
     <section className="dots-bg relative overflow-hidden">
       <div className="ds-halo" />
       <div className="ds-halo-2" />
-      <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-5 pb-24 pt-14 sm:pt-20 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10">
-        <div className="text-center lg:text-left">
-          <p className="rise rise-1 ds-pill">
-            <span className="h-[9px] w-[9px] rounded-full bg-ml ring-[3px] ring-tinta/[0.07]" />
-            Para vendedores de Mercado Libre
-          </p>
-          <h1 className="rise rise-2 mt-5 font-display text-4xl font-extrabold leading-[1.03] tracking-[-0.035em] sm:text-5xl lg:text-[3.6rem]">
-            Tu operación de Mercado&nbsp;Libre,{" "}
-            <span className="text-terracota">en una sola vista.</span>
-          </h1>
-          <p className="rise rise-3 mx-auto mt-5 max-w-[35ch] text-[18.5px] leading-relaxed text-tinta-2 lg:mx-0">
-            Conectá tus cuentas de Mercado Libre y manejá pedidos, etiquetas,
-            preguntas y tu ganancia real desde una sola app. En el celu o en la
-            compu.
-          </p>
-          <div className="rise rise-4 mt-8 flex justify-center lg:justify-start">
-            <CtaWhatsApp large />
-          </div>
-          <p className="rise rise-4 mt-4 text-sm text-muted">
-            Te mostramos la app funcionando con tus propias ventas.
-          </p>
-        </div>
-
-        <div className="rise rise-5">
-          <PhoneFrame>
-            <MockHoy />
-          </PhoneFrame>
-        </div>
-      </div>
+      <HeroDemo />
     </section>
   );
 }
@@ -184,85 +136,6 @@ export function Problema() {
         </Reveal>
       </div>
     </section>
-  );
-}
-
-/* ---------- Cómo funciona ---------- */
-
-export function ComoFunciona() {
-  return (
-    <section className="mx-auto max-w-6xl px-5 pb-20 pt-20 lg:pb-28 lg:pt-28">
-      <Reveal>
-        <div className="mx-auto max-w-[640px] text-center">
-          <p className="font-display text-xs font-bold uppercase tracking-[0.18em] text-terracota">
-            Cómo funciona
-          </p>
-          <h2 className="mt-3.5 font-display text-3xl font-extrabold tracking-[-0.035em] sm:text-4xl">
-            Empezás hoy, literal.
-          </h2>
-          <p className="mt-4 text-[17px] leading-relaxed text-tinta-2">
-            Sin manuales, sin configuración eterna. Conectás y despachás.
-          </p>
-        </div>
-      </Reveal>
-
-      <div className="mt-10 grid gap-4 lg:grid-cols-3">
-        <Reveal>
-          <div className="ds-card flex h-full flex-col">
-            <StepNumber n={1} label="Conectá" />
-            <h3 className="mt-4 font-display text-[17.5px] font-bold">
-              El login oficial de Mercado Libre
-            </h3>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-tinta-2">
-              Vinculás tu cuenta en un clic. Sin migrar nada, sin cargar
-              productos a mano. Si tenés varias cuentas, las sumás todas.
-            </p>
-          </div>
-        </Reveal>
-        <Reveal delay={120}>
-          <div className="ds-card flex h-full flex-col">
-            <StepNumber n={2} label="Mirá" />
-            <h3 className="mt-4 font-display text-[17.5px] font-bold">
-              Todo el día en una pantalla
-            </h3>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-tinta-2">
-              Qué preparar, qué despachar, qué responder y cuánto tiempo te
-              queda antes del corte.
-            </p>
-            <Shot>
-              <MockEtiquetas />
-            </Shot>
-          </div>
-        </Reveal>
-        <Reveal delay={240}>
-          <div className="ds-card flex h-full flex-col">
-            <StepNumber n={3} label="Despachá" />
-            <h3 className="mt-4 font-display text-[17.5px] font-bold">
-              Escaneás y la app confirma
-            </h3>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-tinta-2">
-              Imprimís las etiquetas desde la compu, armás los paquetes y con el
-              celu escaneás cada etiqueta: sonido y color te confirman que va en
-              el paquete correcto.
-            </p>
-            <Shot>
-              <MockScan compact />
-            </Shot>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-function StepNumber({ n, label }: { n: number; label: string }) {
-  return (
-    <p className="flex items-center gap-2.5 font-display text-[13px] font-bold text-terracota">
-      <i className="grid h-[26px] w-[26px] place-items-center rounded-[9px] bg-gradient-to-b from-[#c05a48] to-[#a84734] text-[13px] not-italic text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_4px_10px_-4px_rgba(155,64,48,0.6)]">
-        {n}
-      </i>
-      {label}
-    </p>
   );
 }
 

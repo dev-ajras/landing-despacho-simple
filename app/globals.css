@@ -236,6 +236,116 @@ body {
 .ds-phone-screen { position: relative; border-radius: 38px; overflow: hidden; background: var(--color-crema); box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.4); }
 .ds-phone-notch { position: absolute; left: 50%; top: 9px; width: 96px; height: 26px; transform: translateX(-50%); border-radius: 999px; background: #14100c; z-index: 5; }
 
+/* Video del hero: ya trae dibujado su propio marco de teléfono, así que va
+   suelto. El fondo del video (#f9f0df) no es exactamente el crema del sitio y
+   además corta el patrón de puntitos, por eso el fundido de bordes: fuerte a los
+   costados (hay margen de sobra) y mínimo arriba y abajo, donde el teléfono
+   llega casi al borde del cuadro. */
+/* Hero: en mobile una columna con el video entre el titular y los capítulos;
+   en desktop el video pasa a una columna propia que abarca las dos filas. */
+.ds-hero {
+  display: grid;
+  gap: 28px;
+}
+@media (min-width: 1024px) {
+  .ds-hero {
+    grid-template-columns: 1.1fr 0.9fr;
+    column-gap: 48px;
+    row-gap: 28px;
+    align-items: center;
+  }
+  .ds-hero-titulo { grid-column: 1; grid-row: 1; align-self: end; }
+  .ds-hero-texto  { grid-column: 1; grid-row: 2; align-self: start; }
+  .ds-hero-video  { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+}
+
+.ds-demo-video {
+  display: block;
+  margin: 0 auto;
+  aspect-ratio: 1080 / 1920;
+  max-height: 58vh;
+  width: auto;
+  max-width: 100%;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 11%, #000 89%, transparent),
+    linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent, #000 11%, #000 89%, transparent),
+    linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
+  mask-composite: intersect;
+}
+
+@media (min-width: 1024px) {
+  .ds-demo-video { max-height: 620px; }
+}
+
+/* Capítulos del hero: los cuatro apilados en la misma celda para que el alto
+   sea siempre el del texto más largo y el botón de abajo no salte. */
+.ds-caps {
+  display: grid;
+}
+.ds-cap {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease-ds), transform 0.5s var(--ease-ds);
+}
+.ds-cap.is-activo {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.ds-cap-eyebrow {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-terracota);
+}
+
+/* Indicador de capítulo, clicable. */
+.ds-caps-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+@media (min-width: 1024px) {
+  .ds-caps-nav { justify-content: flex-start; }
+}
+.ds-caps-nav-item {
+  flex: 1 1 0;
+  min-width: 78px;
+  padding-top: 9px;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-align: left;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: color 0.3s var(--ease-ds);
+}
+.ds-caps-nav-item:hover { color: var(--color-tinta-2); }
+.ds-caps-nav-item.is-activo { color: var(--color-terracota); font-weight: 700; }
+.ds-caps-nav-barra {
+  display: block;
+  height: 2.5px;
+  margin-bottom: 7px;
+  border-radius: 999px;
+  background: rgba(38, 30, 23, 0.12);
+  overflow: hidden;
+}
+.ds-caps-nav-barra > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-terracota);
+  transform-origin: left;
+  transition: transform 0.3s linear;
+}
+
 /* Fila de vidrio dentro de los mockups. OJO: .ds-glass-row .t y .s necesitan
    display:block — si quedan inline el título y la meta se pisan. */
 .ds-glass-row {
@@ -258,4 +368,5 @@ body {
   .ds-card, .ds-btn, .ds-row { transition: none; }
   .ds-card:hover, .ds-btn:hover { transform: none; }
   .ds-scan-line { animation: none; top: 50%; }
+  .ds-cap { transition: none; }
 }
