@@ -104,7 +104,7 @@ export function HeroDemo() {
     /* En mobile el video se intercala entre el titular y los capítulos, para que
        el teléfono y el texto que lo describe se vean juntos. En desktop vuelve a
        ser una columna al costado. */
-    <div className="ds-hero relative mx-auto max-w-6xl px-5 pb-24 pt-14 sm:pt-20">
+    <div className="ds-hero relative mx-auto max-w-6xl pb-24 pt-14 sm:px-5 sm:pt-20">
       <div className="ds-hero-titulo text-center lg:text-left">
         <p className="rise rise-1 ds-pill">
           <span className="h-[9px] w-[9px] rounded-full bg-ml ring-[3px] ring-tinta/[0.07]" />

@@ -242,10 +242,25 @@ body {
    costados (hay margen de sobra) y mínimo arriba y abajo, donde el teléfono
    llega casi al borde del cuadro. */
 /* Hero: en mobile una columna con el video entre el titular y los capítulos;
-   en desktop el video pasa a una columna propia que abarca las dos filas. */
+   en desktop el video pasa a una columna propia que abarca las dos filas.
+   En mobile el padding lateral lo ponen los bloques de texto, no el contenedor,
+   así el video llega al borde sin trucos de 100vw ni márgenes negativos —que
+   Safari resuelve distinto y descentran el celu. */
 .ds-hero {
   display: grid;
   gap: 28px;
+}
+.ds-hero-titulo,
+.ds-hero-texto {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+@media (min-width: 640px) {
+  .ds-hero-titulo,
+  .ds-hero-texto {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 @media (min-width: 1024px) {
   .ds-hero {
@@ -259,16 +274,14 @@ body {
   .ds-hero-video  { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
 }
 
-/* En mobile el celu se lleva todo el ancho de la pantalla: sale del padding del
-   contenedor, que es la única forma de que se vea grande en 390px. En tablet se
-   limita por alto y en desktop vuelve a la columna. */
+/* En mobile el celu se lleva todo el ancho de la pantalla (el contenedor no
+   tiene padding ahí). En tablet se limita por alto y en desktop vuelve a la
+   columna. */
 .ds-demo-video {
   display: block;
   aspect-ratio: 1080 / 1920;
-  width: 100vw;
-  max-width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+  width: 100%;
+  margin: 0 auto;
   -webkit-mask-image:
     linear-gradient(to right, transparent, #000 11%, #000 89%, transparent),
     linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
