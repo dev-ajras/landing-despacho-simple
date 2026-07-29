@@ -259,13 +259,16 @@ body {
   .ds-hero-video  { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
 }
 
+/* En mobile el celu se lleva todo el ancho de la pantalla: sale del padding del
+   contenedor, que es la única forma de que se vea grande en 390px. En tablet se
+   limita por alto y en desktop vuelve a la columna. */
 .ds-demo-video {
   display: block;
-  margin: 0 auto;
   aspect-ratio: 1080 / 1920;
-  max-height: 58vh;
-  width: auto;
-  max-width: 100%;
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   -webkit-mask-image:
     linear-gradient(to right, transparent, #000 11%, #000 89%, transparent),
     linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
@@ -274,6 +277,16 @@ body {
     linear-gradient(to right, transparent, #000 11%, #000 89%, transparent),
     linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
   mask-composite: intersect;
+}
+
+@media (min-width: 640px) {
+  .ds-demo-video {
+    width: auto;
+    max-width: 100%;
+    max-height: 70vh;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 @media (min-width: 1024px) {
