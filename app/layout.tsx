@@ -18,7 +18,15 @@ export const metadata: Metadata = {
   title: "Despacho Simple — Tu operación de Mercado Libre, en una sola vista",
   description:
     "Conectá tus cuentas de Mercado Libre y manejá pedidos, etiquetas, preguntas y tu ganancia real desde una sola app. En el celu o en la compu.",
-  icons: { icon: "/icon.svg" },
+  // Mismo set de iconos que la app (only-info-next)
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     title: "Despacho Simple",
     description:
