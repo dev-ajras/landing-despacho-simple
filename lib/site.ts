@@ -2,8 +2,8 @@
 export const SITE_URL = "https://despachosimple.com.ar";
 export const SITE_NAME = "Despacho Simple";
 
-// 11 5781-4609 → 54 (país) + 9 (móvil) + 11 5781 4609, sin "+" ni espacios
-export const WHATSAPP_NUMBER = "5491157814609";
+// 11 4079-6063 → 54 (país) + 9 (móvil) + 11 4079 6063, sin "+" ni espacios
+export const WHATSAPP_NUMBER = "5491140796063";
 export const CONTACT_EMAIL = "hola@despachosimple.com.ar";
 
 const WA_DEFAULT_MESSAGE =
